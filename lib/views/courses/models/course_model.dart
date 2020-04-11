@@ -37,7 +37,7 @@ Matter getMatter(){
   
   Compound compound = Compound(CompoundType.CARD, elementList);
   
-  List<Compound> compoundList = [compound];
+  List<Compound> compoundList = [compound, compound];
   
   return Matter(compoundList);
   

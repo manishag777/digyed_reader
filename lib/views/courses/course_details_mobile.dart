@@ -11,6 +11,8 @@ const TextStyle descriptionStyle = TextStyle(color: textColor, fontSize: 15);
 
 
 
+
+
 class CourseDetailsMobile extends StatelessWidget {
   const CourseDetailsMobile({Key key}) : super(key: key);
 
@@ -59,19 +61,20 @@ class CourseDetailsMobile extends StatelessWidget {
   }
 }
 
-Widget getMatterWidget(Matter matter) => Card(
-  child: Padding(
-    padding: EdgeInsets.all(8.0),
-    child: ListView(
-      children: matter.compoundList.map((e) => getCompoundWidget(e)).toList(),
-    ),
-  ),
+Widget getMatterWidget(Matter matter) => ListView(
+  children: matter.compoundList.map((e) => getCompoundWidget(e)).toList(),
 );
 
 
-Widget getCompoundWidget(Compound compound) => Column(
-  mainAxisSize: MainAxisSize.min,
-  children: compound.elementList.map((e) => getElementWidget(e)).toList(),
+Widget getCompoundWidget(Compound compound) => Card(
+  color: cardColor,
+  child:   Padding(
+    padding: EdgeInsets.all(8.0),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: compound.elementList.map((e) => getElementWidget(e)).toList(),
+    ),
+  ),
 );
 
 Widget getElementWidget(DyElement element) => Column(
@@ -79,7 +82,8 @@ Widget getElementWidget(DyElement element) => Column(
   children: element.atomList.map((e) => getAtomWidget(e)).toList(),
 );
 
-Widget getAtomWidget(Atom atom) => Text(atom.data);
+Widget getAtomWidget(Atom atom) => Text(atom.data,
+  style: atom.atomType == AtomType.HEADING ? headingStyle: descriptionStyle,);
 
 
 
