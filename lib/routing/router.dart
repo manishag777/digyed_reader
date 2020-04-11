@@ -3,16 +3,21 @@ import 'package:flutter/widgets.dart';
 import 'package:the_basics/routing/route_names.dart';
 import 'package:the_basics/views/about/about_view.dart';
 import 'package:the_basics/views/episodes/episodes_view.dart';
+import 'package:the_basics/views/courses//courses_view.dart';
 import 'package:the_basics/views/home/home_view.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case HomeRoute:
-      return _getPageRoute(HomeView(), settings.name);
+//      return _getPageRoute(HomeView(), settings.name);
+      return _getPageRoute(CoursesView(), settings.name);
     case AboutRoute:
       return _getPageRoute(AboutView(), settings.name);
     case EpisodesRoute:
       return _getPageRoute(EpisodesView(), settings.name);
+    case CourseRoute:
+      return _getPageRoute(CoursesView(), settings.name);
+
     default:
   }
 }

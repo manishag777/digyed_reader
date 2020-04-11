@@ -23,6 +23,7 @@ class NavigationDrawer extends StatelessWidget {
           // The UI for the current DrawerItem shows when it's in mobile, else it shows the NavBarItem ui.
           DrawerItem('Episodes', Icons.videocam, EpisodesRoute),
           DrawerItem('About', Icons.help, AboutRoute),
+          DrawerItem('Course', Icons.help, CourseRoute),
         ],
       ),
     );

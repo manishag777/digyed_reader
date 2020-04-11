@@ -8,6 +8,8 @@ import 'package:the_basics/widgets/centered_view/centered_view.dart';
 import 'package:the_basics/widgets/navigation_bar/navigation_bar.dart';
 import 'package:the_basics/widgets/navigation_drawer/navigation_drawer.dart';
 
+const Color backgroundColor = Color.fromARGB(255, 18,23,26);
+
 class LayoutTemplate extends StatelessWidget {
   const LayoutTemplate({Key key}) : super(key: key);
 
@@ -18,11 +20,11 @@ class LayoutTemplate extends StatelessWidget {
         drawer: sizingInformation.deviceScreenType == DeviceScreenType.Mobile
             ? NavigationDrawer()
             : null,
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundColor,
         body: CenteredView(
           child: Column(
             children: <Widget>[
-              NavigationBar(),
+//              NavigationBar(),
               Expanded(
                 child: Navigator(
                   key: locator<NavigationService>().navigatorKey,
