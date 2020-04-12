@@ -2,7 +2,6 @@ import 'package:digyed_reader/constants/colors.dart';
 import 'package:digyed_reader/constants/text_style.dart';
 import 'package:digyed_reader/models/course_model.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:digyed_reader/view_models/reader_model.dart';
 import 'package:digyed_reader/view_models/writer_model.dart';
@@ -12,8 +11,8 @@ class Writer extends StatelessWidget {
   Widget build(BuildContext context) {
     final readerModel = Provider.of<ReaderModel>(context, listen: false);
     final writerModel = Provider.of<WriterModel>(context, listen: false);
-//    return Container(child: TextField(), height: 200, color: Colors.red,);
-    print("Building Writer");
+
+    readerModel.updateMatter(writerModel.matter);
     return Container(
       child: ListView(
         children: <Widget>[
@@ -122,56 +121,82 @@ class Writer extends StatelessWidget {
           return descriptionEditWidget(atom);
       });
 
-  Widget headerEditWidget(Atom atom) => Builder(
-        builder: (context) {
-          final writerModel = Provider.of<WriterModel>(context, listen: false);
-          return Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: TextField(
-              style: headingEditStyle,
-              controller: TextEditingController(text: atom.data),
-              onSubmitted: (s) {
-                writerModel.updateAtomAndNotify(atom, s);
-              },
-              onChanged: (s){
-                writerModel.updateAtom(atom, s);
-              },
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white)),
-                  filled: true,
-                  fillColor: Colors.white),
-              maxLines: 1,
-            ),
-          );
-        },
+  Widget headerEditWidget(Atom atom) => Focus(
+        child: Builder(
+          builder: (context) {
+            final FocusNode focusNode = Focus.of(context);
+            final writerModel = Provider.of<WriterModel>(context, listen: false);
+            return Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: focusNode.hasFocus ? TextField(
+                style: headingEditStyle,
+                controller: TextEditingController(text: atom.data),
+                onSubmitted: (s) {
+                  writerModel.updateAtomAndNotify(atom, s);
+                },
+                onChanged: (s) {
+                  writerModel.updateAtom(atom, s);
+                },
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white)),
+                    filled: true,
+                    fillColor: Colors.white),
+                maxLines: 1,
+              ): GestureDetector(
+                onTap: (){
+                  focusNode.requestFocus();
+                },
+                child: Row(
+                  children: <Widget>[
+                  Text(atom.data, style: headingStyle,),
+                  Expanded(child: Container(),),
+                  Icon(Icons.edit, color: Colors.white, )
+                ],),
+              ),
+            );
+          },
+        ),
       );
 
-  Widget descriptionEditWidget(Atom atom) => Builder(
-        builder: (context) {
-          final writerModel = Provider.of<WriterModel>(context, listen: false);
-          return Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: TextField(
-              style: descriptionEditStyle,
-              controller: TextEditingController(text: atom.data),
-              onSubmitted: (s) {
-                writerModel.updateAtomAndNotify(atom, s);
-              },
-              onChanged: (s){
-                writerModel.updateAtom(atom, s);
-              },
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white)),
-                  filled: true,
-                  fillColor: Colors.white),
-              maxLines: null,
-              minLines: 4,
-            ),
-          );
-        },
-      );
+  Widget descriptionEditWidget(Atom atom) => Focus(
+    child: Builder(
+          builder: (context) {
+            final FocusNode focusNode = Focus.of(context);
+            final writerModel = Provider.of<WriterModel>(context, listen: false);
+            return Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: focusNode.hasFocus ? TextField(
+                style: descriptionEditStyle,
+                controller: TextEditingController(text: atom.data),
+                onSubmitted: (s) {
+                  writerModel.updateAtomAndNotify(atom, s);
+                },
+                onChanged: (s) {
+                  writerModel.updateAtom(atom, s);
+                },
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white)),
+                    filled: true,
+                    fillColor: Colors.white),
+                maxLines: null,
+                minLines: 4,
+              ): GestureDetector(
+                onTap: (){
+                  focusNode.requestFocus();
+                },
+                child: Row(
+                  children: <Widget>[
+                    Text(atom.data, style: descriptionStyle,),
+                    Expanded(child: Container(),),
+                    Icon(Icons.edit, color: Colors.white, )
+                  ],),
+              ),
+            );
+          },
+        ),
+  );
 
   Widget compoundAdder({Compound compound}) => Builder(
         builder: (context) {

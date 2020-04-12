@@ -9,12 +9,6 @@ class WriterWithPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-//    return Scaffold(
-//      appBar:  AppBar(title: Text("Hello World")),
-//      body: getReaderWriterWidget(),
-//    );
-
-
     return MaterialApp(
       home: DefaultTabController(
         length: 2,
@@ -30,14 +24,14 @@ class WriterWithPreview extends StatelessWidget {
           ),
           body: MultiProvider(
             providers: [
-            ChangeNotifierProvider<ReaderModel>(create: (context){return ReaderModel("Hello");},),
+            ChangeNotifierProvider<ReaderModel>(create: (context){return ReaderModel();},),
             ChangeNotifierProvider<WriterModel>(create: (context){return WriterModel();},),
             ],
             child: //Container(child: TextField(), height: 500, color: Colors.red,)
             TabBarView(
               children: [
                 Consumer<WriterModel>(builder: (BuildContext context, WriterModel model, Widget child) =>  Writer()),
-                Consumer<ReaderModel>(builder: (BuildContext context, ReaderModel model, Widget child) =>  Reader(model.text)),
+                Consumer<ReaderModel>(builder: (BuildContext context, ReaderModel model, Widget child) =>  Reader()),
               ],
             ),
           ),
@@ -45,21 +39,5 @@ class WriterWithPreview extends StatelessWidget {
       ),
     );
   }
-
-  Widget getReaderWriterWidget() => Builder(builder: (context){
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<ReaderModel>(create: (context){return ReaderModel("Hello");},),
-          ChangeNotifierProvider<WriterModel>(create: (context){return WriterModel();},),
-        ],
-        child: Consumer<WriterModel>(builder: (BuildContext context, WriterModel model, Widget child) =>  Writer()),
-//            TabBarView(
-//              children: [
-//                Consumer<WriterModel>(builder: (BuildContext context, WriterModel model, Widget child) =>  Writer()),
-//                Consumer<ReaderModel>(builder: (BuildContext context, ReaderModel model, Widget child) =>  Reader(model.text)),
-//              ],
-//            ),
-    );
-  },);
 
 }
