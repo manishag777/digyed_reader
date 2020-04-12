@@ -130,6 +130,7 @@ class Writer extends StatelessWidget {
         builder: (context) {
           List<Atom> atomList = element.atomList;
           return Container(
+            width: double.infinity,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: atomList.map((e) => atomWidget(e)).toList(),
@@ -145,7 +146,9 @@ class Writer extends StatelessWidget {
           return descriptionEditWidget(atom);
       });
 
-  InputDecoration get inpurDecoration => InputDecoration(
+  InputDecoration inpurDecoration(hintText, hintStyle) => InputDecoration(
+    hintText: hintText,
+    hintStyle: hintStyle,
     enabledBorder: const OutlineInputBorder(
       borderSide: const BorderSide(color: Colors.white, width: 0.0),
     ),
@@ -162,6 +165,8 @@ class Writer extends StatelessWidget {
             final FocusNode focusNode = Focus.of(context);
             final writerModel =
                 Provider.of<WriterModel>(context, listen: false);
+//            FocusNode textFieldFocusNode = FocusNode();
+//            textFieldFocusNode.requestFocus();
             return Padding(
               padding: const EdgeInsets.all(4.0),
               child: focusNode.hasFocus
@@ -175,7 +180,7 @@ class Writer extends StatelessWidget {
                       onChanged: (s) {
                         writerModel.updateAtom(atom, s);
                       },
-                      decoration: inpurDecoration,
+                      decoration: inpurDecoration('Add Heading', headingHintStyle),
                       cursorColor: Colors.white,
                       maxLines: 1,
                     )
@@ -186,8 +191,8 @@ class Writer extends StatelessWidget {
                       child: Row(
                         children: <Widget>[
                           Text(
-                            atom.data,
-                            style: headingStyle,
+                            atom.data.isEmpty?'Add Heading':atom.data,
+                            style: atom.data.isEmpty ? headingHintStyle: headingStyle,
                           ),
                           Expanded(
                             child: Container(),
@@ -214,6 +219,7 @@ class Writer extends StatelessWidget {
               padding: const EdgeInsets.all(4.0),
               child: focusNode.hasFocus
                   ? TextField(
+                      autofocus: true,
                       style: descriptionStyle,
                       controller: TextEditingController(text: atom.data),
                       onSubmitted: (s) {
@@ -222,7 +228,7 @@ class Writer extends StatelessWidget {
                       onChanged: (s) {
                         writerModel.updateAtom(atom, s);
                       },
-                      decoration: inpurDecoration,
+                      decoration: inpurDecoration('Add Description', descriptionHintStyle),
                       cursorColor: Colors.white,
                       maxLines: null,
                       minLines: 4,
@@ -234,8 +240,8 @@ class Writer extends StatelessWidget {
                       child: Row(
                         children: <Widget>[
                           Text(
-                            atom.data,
-                            style: descriptionStyle,
+                            atom.data.isEmpty?'Add Description':atom.data,
+                            style: atom.data.isEmpty?descriptionHintStyle:descriptionStyle,
                           ),
                           Expanded(
                             child: Container(),

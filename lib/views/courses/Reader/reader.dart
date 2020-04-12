@@ -64,10 +64,15 @@ class Reader extends StatelessWidget {
   Widget elementWidget(DyElement element) => Builder(
     builder: (context) {
       List<Atom> atomList = element.atomList;
-      return Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: atomList.map((e) => atomWidget(e)).toList(),
+      return Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Container(
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: atomList.map((e) => atomWidget(e)).toList(),
+          ),
         ),
       );
     },
