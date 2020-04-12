@@ -6,14 +6,29 @@ class Matter {
 }
 
 class Compound {
+  String id;
   List<DyElement> elementList;
   CompoundType compoundType;
-  Compound(this.compoundType, this.elementList);
+  Compound(this.compoundType, this.elementList, this.id);
+
+  Compound copy(){
+    List<DyElement> newElementList = this.elementList.map((e) => e.copy(e)).toList();
+    return Compound(this.compoundType, newElementList, this.id);
+  }
+
+
+
 }
 
 class DyElement {
   List<Atom> atomList;
   DyElement(this.atomList);
+
+  DyElement copy(DyElement dyElement){
+    List<Atom> newAtomList = dyElement.atomList.map((e) => e.copy(e)).toList();
+    return DyElement(newAtomList);
+  }
+
 }
 
 enum AtomType { TITLE, HEADING, DESCRIPTION }
@@ -22,6 +37,10 @@ class Atom {
   AtomType atomType;
   String data;
   Atom(this.atomType, this.data);
+
+  Atom copy(Atom atom){
+    return Atom(this.atomType, this.data);
+  }
 }
 
 
@@ -35,7 +54,7 @@ Matter getMatter(){
   
   List<DyElement> elementList = [element, element];
   
-  Compound compound = Compound(CompoundType.CARD, elementList);
+  Compound compound = Compound(CompoundType.CARD, elementList, "1");
   
   List<Compound> compoundList = [compound, compound];
   
