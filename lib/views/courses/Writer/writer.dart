@@ -28,13 +28,17 @@ class Writer extends StatelessWidget {
           final writerModel = Provider.of<WriterModel>(context, listen: false);
           return Column(
             children: writerModel.matter.compoundList
-                .map((compound) => compoundWidget(compound))
+                .asMap().entries.map((entry){
+                  int index = entry.key;
+                  Compound compound = entry.value;
+                  return compoundWidget(compound, index==0, index==writerModel.length-1);
+                })
                 .toList(),
           );
         },
       );
 
-  Widget compoundWidget(Compound compound) => Builder(
+  Widget compoundWidget(Compound compound, bool isFirst, bool isLast) => Builder(
         builder: (context) {
           final writerModel = Provider.of<WriterModel>(context, listen: false);
           return Column(children: <Widget>[
@@ -58,6 +62,14 @@ class Writer extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
+                          if(!isFirst)
+                            IconButton(icon: Icon(Icons.arrow_upward), onPressed: (){
+                            writerModel.moveUp(compound);
+                          },),
+                          if(!isLast)
+                            IconButton(icon: Icon(Icons.arrow_downward), onPressed: (){
+                              writerModel.moveDown(compound);
+                            },),
                           IconButton(icon: Icon(Icons.content_copy), onPressed: (){
                             writerModel.duplicate(compound);
                           },),
