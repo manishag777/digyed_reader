@@ -1,4 +1,5 @@
-enum CompoundType { CARD }
+enum CompoundType { COMPREHENSION, QUIZ }
+
 
 class Matter {
   List<Compound> compoundList;
@@ -54,7 +55,7 @@ Matter getMatter(){
   
   List<DyElement> elementList = [element, element];
   
-  Compound compound = Compound(CompoundType.CARD, elementList, "1");
+  Compound compound = Compound(CompoundType.COMPREHENSION, elementList, "1");
   
   List<Compound> compoundList = [compound, compound];
   

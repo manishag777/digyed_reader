@@ -17,7 +17,7 @@ class WriterModel extends ChangeNotifier {
   }
   
   void addCompound({Compound compound}){
-    Compound newCompound = new Compound(CompoundType.CARD, getDefaultElementList(), (index++).toString());
+    Compound newCompound = new Compound(CompoundType.COMPREHENSION, getDefaultElementList(), (index++).toString());
     int insertAt = compound==null ? 0: matter.compoundList.indexOf(compound) + 1;
     matter.compoundList.insert(insertAt, newCompound);
     notify();
