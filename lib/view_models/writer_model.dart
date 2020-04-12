@@ -6,11 +6,18 @@ class WriterModel extends ChangeNotifier {
   int index = 0;
   Matter matter;
   WriterModel(): matter=Matter([]);
-
+  
+  List<DyElement> getDefaultElementList(){
+    Atom headerAtom = Atom(AtomType.HEADING, "");
+    Atom descriptionAtom = Atom(AtomType.DESCRIPTION, "");
+    DyElement element = DyElement([headerAtom, descriptionAtom]);
+    return [element];
+  }
+  
   void addCompound({Compound compound}){
-    Compound new_compound = new Compound(CompoundType.CARD, [], (index++).toString());
+    Compound newCompound = new Compound(CompoundType.CARD, getDefaultElementList(), (index++).toString());
     int insertAt = compound==null ? 0: matter.compoundList.indexOf(compound) + 1;
-    matter.compoundList.insert(insertAt, new_compound);
+    matter.compoundList.insert(insertAt, newCompound);
     notifyListeners();
   }
 
@@ -46,6 +53,16 @@ class WriterModel extends ChangeNotifier {
     matter.compoundList.remove(compound);
     notifyListeners();
   }
+
+  void updateAtomAndNotify(Atom atom, String data){
+    atom.data = data;
+    notifyListeners();
+  }
+
+  void updateAtom(Atom atom, String data){
+    atom.data = data;
+  }
+  
 
   int get length => matter.compoundList.length;
 

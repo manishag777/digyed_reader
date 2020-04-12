@@ -13,9 +13,7 @@ class LayoutTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
-      builder: (context, sizingInformation) => Scaffold(
-        backgroundColor: backgroundColor,
-        body: Container(
+      builder: (context, sizingInformation) => Container(
           child: Column(
             children: <Widget>[
               Expanded(
@@ -27,7 +25,6 @@ class LayoutTemplate extends StatelessWidget {
               )
             ],
           ),
-        ),
       ),
     );
   }
