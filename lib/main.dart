@@ -1,5 +1,5 @@
+import 'package:digyed_reader/views/layout_template/layout_template.dart';
 import 'package:flutter/material.dart';
-import 'package:the_basics/views/layout_template/layout_template.dart';
 
 import 'locator.dart';
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:the_basics/widgets/call_to_action/call_to_action.dart';
 
 import 'course_details.dart';
 

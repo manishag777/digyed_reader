@@ -1,12 +1,9 @@
+import 'package:digyed_reader/routing/router.dart';
+import 'package:digyed_reader/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:the_basics/locator.dart';
-import 'package:the_basics/routing/route_names.dart';
-import 'package:the_basics/routing/router.dart';
-import 'package:the_basics/services/navigation_service.dart';
-import 'package:the_basics/widgets/centered_view/centered_view.dart';
-import 'package:the_basics/widgets/navigation_bar/navigation_bar.dart';
-import 'package:the_basics/widgets/navigation_drawer/navigation_drawer.dart';
+import 'package:digyed_reader/locator.dart';
+import 'package:digyed_reader/routing/route_names.dart';
 
 const Color backgroundColor = Color.fromARGB(255, 18,23,26);
 
@@ -17,19 +14,15 @@ class LayoutTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
       builder: (context, sizingInformation) => Scaffold(
-        drawer: sizingInformation.deviceScreenType == DeviceScreenType.Mobile
-            ? NavigationDrawer()
-            : null,
         backgroundColor: backgroundColor,
-        body: CenteredView(
+        body: Container(
           child: Column(
             children: <Widget>[
-//              NavigationBar(),
               Expanded(
                 child: Navigator(
                   key: locator<NavigationService>().navigatorKey,
                   onGenerateRoute: generateRoute,
-                  initialRoute: HomeRoute,
+                  initialRoute: CourseRoute,
                 ),
               )
             ],

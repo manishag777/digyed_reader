@@ -1,4 +1,4 @@
-# the_basics
+# digyed_reader
 
 A new Flutter project.
 
