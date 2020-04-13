@@ -1,6 +1,4 @@
 import 'package:digyed_reader/constants/colors.dart';
-import 'package:digyed_reader/constants/text_style.dart';
-import 'package:digyed_reader/models/base_compound_model.dart';
 import 'package:digyed_reader/models/course_model.dart';
 import 'package:digyed_reader/widgets/compound_type_drop_down.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,11 @@ import 'package:provider/provider.dart';
 import 'package:digyed_reader/view_models/reader_model.dart';
 import 'package:digyed_reader/view_models/writer_model.dart';
 
-import 'header_writer.dart';
+import 'text_writer.dart';
+
+
+Map<CompoundType, Function> funcMap = {CompoundType.HEADING: headWriter,
+  CompoundType.TEXT: descriptionWriter};
 
 class Writer extends StatelessWidget {
   @override
@@ -49,7 +51,7 @@ class Writer extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
                     color: cardColor,
-                    child: HeaderWriter(compound)),
+                    child: funcMap[compound.compoundType](compound)),
               ),
               compoundAdder(compound: compound)
             ],

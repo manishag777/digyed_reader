@@ -1,4 +1,3 @@
-import 'package:digyed_reader/models/base_compound_model.dart';
 import 'package:digyed_reader/models/course_model.dart';
 import 'package:flutter/material.dart';
 

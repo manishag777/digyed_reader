@@ -1,8 +1,4 @@
-
-import 'package:digyed_reader/models/base_compound_model.dart';
-import 'package:digyed_reader/models/header_model.dart';
 import 'package:digyed_reader/view_models/reader_model.dart';
-import 'package:flutter/widgets.dart';
 import 'package:digyed_reader/models/course_model.dart';
 
 import 'base_model.dart';
@@ -12,16 +8,10 @@ class WriterModel extends BaseModel {
   Matter matter;
   WriterModel(): matter=Matter([]);
   ReaderModel readerModel;
-  
-//  List<DyElement> getDefaultElementList(){
-//    Atom headerAtom = Atom(AtomType.HEADING, "");
-//    Atom descriptionAtom = Atom(AtomType.DESCRIPTION, "");
-//    DyElement element = DyElement([headerAtom, descriptionAtom]);
-//    return [element];
-//  }
+
   
   void addCompound({BaseCompoundModel compound}){
-    BaseCompoundModel newCompound = new HeaderModel("Hello World", (index++).toString());
+    BaseCompoundModel newCompound = new TextModel("Hello World", (index++).toString(), CompoundType.HEADING);
     int insertAt = compound==null ? 0: matter.compoundList.indexOf(compound) + 1;
     matter.compoundList.insert(insertAt, newCompound);
     notify();

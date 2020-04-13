@@ -1,12 +1,16 @@
 import 'package:digyed_reader/constants/colors.dart';
 import 'package:digyed_reader/constants/text_style.dart';
-import 'package:digyed_reader/models/base_compound_model.dart';
 import 'package:digyed_reader/models/course_model.dart';
 import 'package:digyed_reader/view_models/reader_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'header_reader.dart';
+
+typedef Widget MyFunc(BaseCompoundModel a);
+
+Map<CompoundType,  MyFunc> funcMap = {CompoundType.HEADING: headReader,
+  CompoundType.TEXT: descriptionReader};
 
 class Reader extends StatelessWidget {
   @override
@@ -26,30 +30,26 @@ class Reader extends StatelessWidget {
       Matter matter = readerModel.matter;
       return matter!=null?Column(
         mainAxisSize: MainAxisSize.min,
-        children: matter.compoundList.asMap().entries.map((entry) {
-          int index = entry.key;
-          BaseCompoundModel baseCompoundModel = entry.value;
-          return compoundWidget(
-              baseCompoundModel, index == 0, index == readerModel.length - 1);
+        children: readerModel.mergeCompoundList.asMap().entries.map((entry) {
+          List<BaseCompoundModel> baseCompoundModelList = entry.value;
+          return compoundWidget(baseCompoundModelList);
         }).toList(),
       ): Container();
     },
   );
 //
-  Widget compoundWidget(BaseCompoundModel compound, bool isFirst, bool isLast) =>
+  Widget compoundWidget(List<BaseCompoundModel> compoundList) =>
       Builder(
         builder: (context) {
-          return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Card(
-                color: cardColor,
-                child: HeaderReader(compound),
-              ),
-            ),
-          ]);
-        },
-      );
+          return Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Card(
+              color: cardColor,
+              child: Container(width: double.infinity, child: Column(
+                children: compoundList.map((compound) => funcMap[compound.compoundType](compound)).toList()),
+              )),
+            );
+        });
 //
 //  Widget elementWidget(DyElement element) => Builder(
 //    builder: (context) {

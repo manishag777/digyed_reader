@@ -1,16 +1,24 @@
 import 'package:digyed_reader/constants/text_style.dart';
-import 'package:digyed_reader/models/header_model.dart';
-import 'package:digyed_reader/view_models/base_model.dart';
+import 'package:digyed_reader/models/course_model.dart';
 import 'package:digyed_reader/view_models/writer_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
-class HeaderWriter extends StatelessWidget {
 
-  final HeaderModel headerData;
-  
-  HeaderWriter(this.headerData);
+
+Widget headWriter(TextModel textModel) => TextWriter(textModel, headingStyle, headingHintStyle);
+
+Widget descriptionWriter(TextModel textModel) => TextWriter(textModel, descriptionStyle, descriptionHintStyle);
+
+
+class TextWriter extends StatelessWidget {
+
+  final TextStyle textStyle;
+  final TextStyle textHintStyle;
+  final TextModel textModel;
+
+  TextWriter(this.textModel, this.textStyle, this.textHintStyle);
 
   InputDecoration inputDecoration(hintText, hintStyle) => InputDecoration(
     hintText: hintText,
@@ -24,10 +32,9 @@ class HeaderWriter extends StatelessWidget {
     border: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.white)),
   );
-  
+
   @override
   Widget build(BuildContext context) {
-
     return Focus(
       child: Builder(
         builder: (context) {
@@ -40,15 +47,15 @@ class HeaderWriter extends StatelessWidget {
                 ? TextField(
               autofocus: true,
               style: headingStyle,
-              controller: TextEditingController(text: headerData.text),
+              controller: TextEditingController(text: textModel.text),
               onSubmitted: (s) {
-                headerData.text = s;
+                textModel.text = s;
                 baseModel.notify();
               },
               onChanged: (s) {
-                headerData.text = s;
+                textModel.text = s;
               },
-              decoration: inputDecoration('Add Heading', headingHintStyle),
+              decoration: inputDecoration('Add Heading', textHintStyle),
               cursorColor: Colors.white,
               maxLines: 1,
             )
@@ -59,8 +66,8 @@ class HeaderWriter extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Text(
-                    headerData.text.isEmpty?'Add Heading':headerData.text,
-                    style: headerData.text.isEmpty ? headingHintStyle: headingStyle,
+                    textModel.text.isEmpty?'Add Heading': textModel.text,
+                    style: textModel.text.isEmpty ? textHintStyle: textStyle,
                   ),
                   Expanded(
                     child: Container(),
@@ -77,4 +84,7 @@ class HeaderWriter extends StatelessWidget {
       ),
     );
   }
+
 }
+
+
