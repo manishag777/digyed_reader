@@ -50,48 +50,4 @@ class Reader extends StatelessWidget {
               )),
             );
         });
-//
-//  Widget elementWidget(DyElement element) => Builder(
-//    builder: (context) {
-//      List<Atom> atomList = element.atomList;
-//      return Padding(
-//        padding: const EdgeInsets.all(4.0),
-//        child: Container(
-//          width: double.infinity,
-//          child: Column(
-//            mainAxisSize: MainAxisSize.min,
-//            crossAxisAlignment: CrossAxisAlignment.start,
-//            children: atomList.map((e) => atomWidget(e)).toList(),
-//          ),
-//        ),
-//      );
-//    },
-//  );
-//
-//  Widget atomWidget(Atom atom) => Builder(builder: (context) {
-//    if (atom.atomType == AtomType.HEADING)
-//      return headerEditWidget(atom);
-//    else
-//      return descriptionEditWidget(atom);
-//  });
-//
-//  Widget headerEditWidget(Atom atom) => Builder(
-//    builder: (context) {
-//      return Padding(
-//        padding: const EdgeInsets.all(4.0),
-//        child: Text(atom.data, style: headingStyle));
-//    }
-//  );
-//
-//  Widget descriptionEditWidget(Atom atom) => Builder(
-//    builder: (context) {
-//      return Padding(
-//        padding: const EdgeInsets.all(4.0),
-//        child: Text(
-//          atom.data,
-//          style: descriptionStyle,
-//        ),
-//      );
-//    },
-//  );
 }

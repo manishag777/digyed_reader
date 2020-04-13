@@ -6,7 +6,7 @@ abstract class BaseCompoundModel {
   BaseCompoundModel copy();
   CompoundLayout _compoundLayout;
 
-  BaseCompoundModel() : _compoundLayout = CompoundLayout.MERGED;
+  BaseCompoundModel() : _compoundLayout = CompoundLayout.CARD;
 
   void set compoundLayout(_compoundLayout) {
     this._compoundLayout = _compoundLayout;
