@@ -12,7 +12,6 @@ class ReaderModel extends BaseModel {
 
   void updateMatter(Matter matter){
     this.matter = matter;
-    notifyListeners();
   }
 
   void notify(){

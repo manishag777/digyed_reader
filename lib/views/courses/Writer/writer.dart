@@ -13,10 +13,6 @@ import 'header_writer.dart';
 class Writer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final readerModel = Provider.of<ReaderModel>(context, listen: false);
-    final writerModel = Provider.of<WriterModel>(context, listen: false);
-
-    readerModel.updateMatter(writerModel.matter);
     return Container(
       child: ListView(
         children: <Widget>[
@@ -71,6 +67,7 @@ class Writer extends StatelessWidget {
   Widget compoundAdder({BaseCompoundModel compound}) => Builder(
         builder: (context) {
           final writerModel = Provider.of<WriterModel>(context, listen: false);
+          final readerModel = Provider.of<ReaderModel>(context, listen: false);
           return Padding(
             padding: const EdgeInsets.all(4.0),
             child: Row(
@@ -84,6 +81,7 @@ class Writer extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.add_circle),
                   onPressed: () {
+                    writerModel.attachReader(readerModel);
                     writerModel.addCompound(compound: compound);
                   },
                 )

@@ -76,8 +76,10 @@ class WriterModel extends BaseModel {
 //  }
 
   void attachReader(ReaderModel readerModel){
-    this.readerModel = readerModel;
-    this.readerModel.updateMatter(matter);
+    if(this.readerModel==null) {
+      this.readerModel = readerModel;
+      this.readerModel.updateMatter(matter);
+    }
   }
 
   int get length => matter.compoundList.length;
