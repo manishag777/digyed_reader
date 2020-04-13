@@ -1,49 +1,53 @@
 
+import 'package:digyed_reader/models/base_compound_model.dart';
+import 'package:digyed_reader/models/header_model.dart';
 import 'package:digyed_reader/view_models/reader_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:digyed_reader/models/course_model.dart';
 
-class WriterModel extends ChangeNotifier {
+import 'base_model.dart';
+
+class WriterModel extends BaseModel {
   int index = 0;
   Matter matter;
   WriterModel(): matter=Matter([]);
   ReaderModel readerModel;
   
-  List<DyElement> getDefaultElementList(){
-    Atom headerAtom = Atom(AtomType.HEADING, "");
-    Atom descriptionAtom = Atom(AtomType.DESCRIPTION, "");
-    DyElement element = DyElement([headerAtom, descriptionAtom]);
-    return [element];
-  }
+//  List<DyElement> getDefaultElementList(){
+//    Atom headerAtom = Atom(AtomType.HEADING, "");
+//    Atom descriptionAtom = Atom(AtomType.DESCRIPTION, "");
+//    DyElement element = DyElement([headerAtom, descriptionAtom]);
+//    return [element];
+//  }
   
-  void addCompound({Compound compound}){
-    Compound newCompound = new Compound(CompoundType.COMPREHENSION, getDefaultElementList(), (index++).toString());
+  void addCompound({BaseCompoundModel compound}){
+    BaseCompoundModel newCompound = new HeaderModel("Hello World", (index++).toString());
     int insertAt = compound==null ? 0: matter.compoundList.indexOf(compound) + 1;
     matter.compoundList.insert(insertAt, newCompound);
     notify();
   }
 
-  void duplicate(Compound compound){
-    Compound new_compound = compound.copy();
+  void duplicate(BaseCompoundModel compound){
+    BaseCompoundModel new_compound = compound.copy();
     int insertAt = compound==null ? 0: matter.compoundList.indexOf(compound) + 1;
     matter.compoundList.insert(insertAt, new_compound);
     notify();
   }
 
-  void moveUp(Compound compound){
+  void moveUp(BaseCompoundModel compound){
       int position = matter.compoundList.indexOf(compound);
       if(position > 0){
-        Compound previousCompound = matter.compoundList[position-1];
+        BaseCompoundModel previousCompound = matter.compoundList[position-1];
         matter.compoundList[position-1] = compound;
         matter.compoundList[position] = previousCompound;
         notify();
       }
   }
 
-  void moveDown(Compound compound){
+  void moveDown(BaseCompoundModel compound){
     int position = matter.compoundList.indexOf(compound);
     if(position <  length - 1){
-      Compound nextCompound = matter.compoundList[position+1];
+      BaseCompoundModel nextCompound = matter.compoundList[position+1];
       matter.compoundList[position+1] = compound;
       matter.compoundList[position] = nextCompound;
       notify();
@@ -57,19 +61,19 @@ class WriterModel extends ChangeNotifier {
     }
   }
 
-  void delete(Compound compound){
+  void delete(BaseCompoundModel compound){
     matter.compoundList.remove(compound);
     notify();
   }
 
-  void updateAtomAndNotify(Atom atom, String data){
-    atom.data = data;
-    notify();
-  }
-
-  void updateAtom(Atom atom, String data){
-    atom.data = data;
-  }
+//  void updateAtomAndNotify(Atom atom, String data){
+//    atom.data = data;
+//    notify();
+//  }
+//
+//  void updateAtom(Atom atom, String data){
+//    atom.data = data;
+//  }
 
   void attachReader(ReaderModel readerModel){
     this.readerModel = readerModel;

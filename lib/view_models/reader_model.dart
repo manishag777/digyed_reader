@@ -2,7 +2,9 @@
 import 'package:digyed_reader/models/course_model.dart';
 import 'package:flutter/widgets.dart';
 
-class ReaderModel extends ChangeNotifier {
+import 'base_model.dart';
+
+class ReaderModel extends BaseModel {
 
   Matter matter;
 
