@@ -2,17 +2,25 @@ enum CompoundType { HEADING, TEXT }
 enum CompoundLayout {CARD, MERGED, WITHOUT_CARD}
 
 abstract class BaseCompoundModel {
-  CompoundType get  compoundType;
   BaseCompoundModel copy();
-  CompoundLayout _compoundLayout;
+  CompoundLayout compoundLayout;
+  CompoundType compoundType;
 
-  BaseCompoundModel() : _compoundLayout = CompoundLayout.CARD;
+  BaseCompoundModel(this.compoundType, this.compoundLayout);
 
-  void set compoundLayout(_compoundLayout) {
-    this._compoundLayout = _compoundLayout;
-  }
+//  CompoundLayout get compoundLayout => _compoundLayout;
+//
+//  void set compoundLayout(_compoundLayout) {
+//    this._compoundLayout = _compoundLayout;
+//  }
+//
+//  CompoundType get  compoundType => _compoundType;
+//
+//  void set compoundType(_compoundType) {
+//    this._compoundType = _compoundType;
+//  }
 
-  CompoundLayout get compoundLayout => _compoundLayout;
+
 
 }
 
@@ -24,14 +32,13 @@ class Matter {
 class TextModel extends BaseCompoundModel{
   String text;
   String id;
-  CompoundType compoundType;
 
-  TextModel(this.text, this.id, this.compoundType):super();
+  TextModel({this.id, this.text, compoundType, compoundLayout}) : super(compoundType, compoundLayout);
 
   @override
   BaseCompoundModel copy() {
-    // TODO: implement copy
-    throw UnimplementedError();
+    return TextModel(text: text, id: id, compoundType: this.compoundLayout, compoundLayout: this.compoundType);
+
   }
 
 }

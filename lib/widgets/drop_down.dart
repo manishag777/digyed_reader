@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class DropDownItemModel {
   IconData iconData;
-  String id;
+  dynamic id;
   String value;
   bool isDivider;
 
@@ -16,7 +16,8 @@ typedef DropDownItemSelected = void Function(DropDownItemModel value);
 class DropDown extends StatefulWidget {
   final List<DropDownItemModel> items;
   final DropDownItemSelected dropDownSelected;
-  DropDown({this.items, this.dropDownSelected});
+  final DropDownItemModel selection;
+  DropDown({this.items, this.dropDownSelected, this.selection});
 
   @override
   _DropDownState createState() => _DropDownState();
@@ -29,6 +30,7 @@ class _DropDownState extends State<DropDown> {
   @override
   void initState() {
     _dropDownSelected = widget.dropDownSelected;
+    _selection = widget.selection;
     super.initState();
   }
 

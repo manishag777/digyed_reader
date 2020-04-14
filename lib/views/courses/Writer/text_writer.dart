@@ -7,9 +7,9 @@ import 'package:provider/provider.dart';
 
 
 
-Widget headWriter(TextModel textModel) => TextWriter(textModel, headingStyle, headingHintStyle);
+Widget headWriter(TextModel textModel) => TextWriter(textModel, headingStyle, headingHintStyle, 'Edit Heading');
 
-Widget descriptionWriter(TextModel textModel) => TextWriter(textModel, descriptionStyle, descriptionHintStyle);
+Widget descriptionWriter(TextModel textModel) => TextWriter(textModel, descriptionStyle, descriptionHintStyle, 'Edit Description');
 
 
 class TextWriter extends StatelessWidget {
@@ -17,8 +17,9 @@ class TextWriter extends StatelessWidget {
   final TextStyle textStyle;
   final TextStyle textHintStyle;
   final TextModel textModel;
+  final String hintText;
 
-  TextWriter(this.textModel, this.textStyle, this.textHintStyle);
+  TextWriter(this.textModel, this.textStyle, this.textHintStyle, this.hintText);
 
   InputDecoration inputDecoration(hintText, hintStyle) => InputDecoration(
     hintText: hintText,
@@ -55,7 +56,7 @@ class TextWriter extends StatelessWidget {
               onChanged: (s) {
                 textModel.text = s;
               },
-              decoration: inputDecoration('Add Heading', textHintStyle),
+              decoration: inputDecoration(hintText, textHintStyle),
               cursorColor: Colors.white,
               maxLines: 1,
             )
@@ -66,8 +67,8 @@ class TextWriter extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Text(
-                    textModel.text.isEmpty?'Add Heading': textModel.text,
-                    style: textModel.text.isEmpty ? textHintStyle: textStyle,
+                    textModel.text ?? hintText,
+                    style: textModel.text == null ? textHintStyle: textStyle,
                   ),
                   Expanded(
                     child: Container(),

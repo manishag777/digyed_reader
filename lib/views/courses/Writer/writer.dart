@@ -1,6 +1,7 @@
 import 'package:digyed_reader/constants/colors.dart';
 import 'package:digyed_reader/models/course_model.dart';
 import 'package:digyed_reader/widgets/compound_type_drop_down.dart';
+import 'package:digyed_reader/widgets/drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:digyed_reader/view_models/reader_model.dart';
@@ -44,14 +45,19 @@ class Writer extends StatelessWidget {
   Widget compoundWidget(BaseCompoundModel compound, bool isFirst, bool isLast) =>
       Builder(
         builder: (context) {
-          final writerModel = Provider.of<WriterModel>(context, listen: false);
           return Column(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
                     color: cardColor,
-                    child: funcMap[compound.compoundType](compound)),
+                    child: Column(
+                      children: <Widget>[
+                        funcMap[compound.compoundType](compound),
+                        bottomActionBar(compound, isFirst, isLast)
+
+                      ],
+                    )),
               ),
               compoundAdder(compound: compound)
             ],
@@ -59,6 +65,64 @@ class Writer extends StatelessWidget {
 
         },
       );
+
+  Widget bottomActionBar(BaseCompoundModel compound, isFirst, isLast) => Builder(
+      builder: (context){
+        final writerModel = Provider.of<WriterModel>(context, listen: false);
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                    width: 200,
+                    child: compoundLayoutDropDown(
+                        dropDownItemSelected: (DropDownItemModel d) {
+                          compound.compoundLayout = d.id;
+                          },
+                        selected: compound.compoundLayout),
+                ),
+                Expanded(
+                  child: Container(),
+                ),
+                if (!isFirst)
+                  _IconButton(
+                    icon: Icon(
+                      Icons.arrow_upward,
+                    ),
+                    onPressed: () {
+                      writerModel.moveUp(compound);
+                    },
+                  ),
+                if (!isLast)
+                  _IconButton(
+                    icon: Icon(Icons.arrow_downward),
+                    onPressed: () {
+                      writerModel.moveDown(compound);
+                    },
+                  ),
+                _IconButton(
+                  icon: Icon(Icons.content_copy),
+                  onPressed: () {
+                    writerModel.duplicate(compound);
+                  },
+                ),
+                _IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    writerModel.delete(compound);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+
+      },
+  );
+
 
   Widget _IconButton({icon, onPressed}) => Padding(
         padding: const EdgeInsets.all(4.0),
@@ -70,6 +134,7 @@ class Writer extends StatelessWidget {
         builder: (context) {
           final writerModel = Provider.of<WriterModel>(context, listen: false);
           final readerModel = Provider.of<ReaderModel>(context, listen: false);
+          CompoundType selectedCompoundType;
           return Padding(
             padding: const EdgeInsets.all(4.0),
             child: Row(
@@ -77,14 +142,17 @@ class Writer extends StatelessWidget {
               children: <Widget>[
                 Container(
                     width: 200,
-                    child: CompoundDropDown(
-                      dropDownItemSelected: (d) {},
+                    child: compoundTypeDropDown(
+                      dropDownItemSelected: (d) {
+                        selectedCompoundType = d.id;
+                      },
+                      selected: CompoundType.HEADING
                     )),
                 IconButton(
                   icon: Icon(Icons.add_circle),
                   onPressed: () {
                     writerModel.attachReader(readerModel);
-                    writerModel.addCompound(compound: compound);
+                    writerModel.addCompound(compound: compound, compoundType: selectedCompoundType);
                   },
                 )
               ],

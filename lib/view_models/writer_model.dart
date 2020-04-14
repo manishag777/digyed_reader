@@ -10,17 +10,22 @@ class WriterModel extends BaseModel {
   ReaderModel readerModel;
 
   
-  void addCompound({BaseCompoundModel compound}){
-    BaseCompoundModel newCompound = new TextModel("Hello World", (index++).toString(), CompoundType.HEADING);
+  void addCompound({BaseCompoundModel compound, CompoundType compoundType}){
+    BaseCompoundModel newCompound = new TextModel(
+        id: (index++).toString(),
+        compoundType: compoundType ?? CompoundType.HEADING,
+        compoundLayout: CompoundLayout.MERGED
+    );
+
     int insertAt = compound==null ? 0: matter.compoundList.indexOf(compound) + 1;
     matter.compoundList.insert(insertAt, newCompound);
     notify();
   }
 
   void duplicate(BaseCompoundModel compound){
-    BaseCompoundModel new_compound = compound.copy();
+    BaseCompoundModel newCompound = compound.copy();
     int insertAt = compound==null ? 0: matter.compoundList.indexOf(compound) + 1;
-    matter.compoundList.insert(insertAt, new_compound);
+    matter.compoundList.insert(insertAt, newCompound);
     notify();
   }
 
