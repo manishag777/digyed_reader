@@ -42,42 +42,46 @@ class TextWriter extends StatelessWidget {
           final FocusNode focusNode = Focus.of(context);
           final baseModel = Provider.of<WriterModel>(context, listen: false);
 
-          return Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: focusNode.hasFocus
-                ? TextField(
-              autofocus: true,
-              style: headingStyle,
-              controller: TextEditingController(text: textModel.text),
-              onSubmitted: (s) {
-                textModel.text = s;
-                baseModel.notify();
-              },
-              onChanged: (s) {
-                textModel.text = s;
-              },
-              decoration: inputDecoration(hintText, textHintStyle),
-              cursorColor: Colors.white,
-              maxLines: 1,
-            )
-                : GestureDetector(
-              onTap: () {
-                focusNode.requestFocus();
-              },
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    textModel.text ?? hintText,
-                    style: textModel.text == null ? textHintStyle: textStyle,
-                  ),
-                  Expanded(
-                    child: Container(),
-                  ),
-                  Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                  )
-                ],
+          return Container(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: focusNode.hasFocus
+                  ? TextField(
+                autofocus: true,
+                style: headingStyle,
+                controller: TextEditingController(text: textModel.text),
+                onSubmitted: (s) {
+                  textModel.text = s;
+                  baseModel.notify();
+                },
+                onChanged: (s) {
+                  textModel.text = s;
+                },
+                decoration: inputDecoration(hintText, textHintStyle),
+                cursorColor: Colors.white,
+                minLines: 1,
+                maxLines: null,
+              )
+                  : GestureDetector(
+                onTap: () {
+                  focusNode.requestFocus();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(
+                        textModel.text ?? hintText,
+                        style: textModel.text == null ? textHintStyle: textStyle,
+                      ),
+                    ),
+                    Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                    )
+                  ],
+                ),
               ),
             ),
           );

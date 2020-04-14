@@ -12,14 +12,15 @@ class TextReader extends StatelessWidget {
 
   final TextModel textModel;
   final TextStyle textStyle;
-  
+
   TextReader(this.textModel, this.textStyle);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return textModel.text != null ?
+    Padding(
         padding: const EdgeInsets.all(4.0),
         child: Text(textModel.text, style: textStyle)
-    );
+    ) : Container();
   }
 }

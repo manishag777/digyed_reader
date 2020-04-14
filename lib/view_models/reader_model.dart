@@ -18,7 +18,7 @@ class ReaderModel extends BaseModel {
     List<List<BaseCompoundModel>> listOfList = [];
     List<BaseCompoundModel> currentList = [];
     for(BaseCompoundModel compound in matter.compoundList){
-      if(compound.compoundLayout == CompoundLayout.MERGED){
+      if(compound.compoundLayout == CompoundLayout.Merge){
         currentList.add(compound);
       }
       else{

@@ -1,5 +1,5 @@
-enum CompoundType { HEADING, TEXT }
-enum CompoundLayout {CARD, MERGED, WITHOUT_CARD}
+enum CompoundType { Heading, Text }
+enum CompoundLayout {Card, Merge, WithoutCard}
 
 abstract class BaseCompoundModel {
   BaseCompoundModel copy();
@@ -7,20 +7,6 @@ abstract class BaseCompoundModel {
   CompoundType compoundType;
 
   BaseCompoundModel(this.compoundType, this.compoundLayout);
-
-//  CompoundLayout get compoundLayout => _compoundLayout;
-//
-//  void set compoundLayout(_compoundLayout) {
-//    this._compoundLayout = _compoundLayout;
-//  }
-//
-//  CompoundType get  compoundType => _compoundType;
-//
-//  void set compoundType(_compoundType) {
-//    this._compoundType = _compoundType;
-//  }
-
-
 
 }
 

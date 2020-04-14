@@ -17,18 +17,17 @@ Widget baseDropDown({List<DropDownItemModel> items, DropDownItemSelected dropDow
 
 Widget compoundLayoutDropDown({DropDownItemSelected dropDownItemSelected, CompoundLayout selected}) => Builder(builder: (context){
   final items = [
-    DropDownItemModel(iconData: Icons.album, id: CompoundLayout.MERGED, value: "Merged"),
-    DropDownItemModel(iconData: Icons.album, id: CompoundLayout.CARD, value: "Card"),
-    DropDownItemModel(iconData: Icons.album, id: CompoundLayout.WITHOUT_CARD, value: "Without Card"),
+    DropDownItemModel(iconData: Icons.album, id: CompoundLayout.Merge, value: "Merge"),
+    DropDownItemModel(iconData: Icons.album, id: CompoundLayout.Card, value: "Card"),
   ];
   return baseDropDown(items: items, dropDownItemSelected : dropDownItemSelected, selected: selected,);
 });
 
 Widget compoundTypeDropDown({DropDownItemSelected dropDownItemSelected, CompoundType selected}) => Builder(builder: (context){
   final items = [
-    DropDownItemModel(iconData: Icons.album, id: CompoundType.HEADING, value: "Heading"),
+    DropDownItemModel(iconData: Icons.album, id: CompoundType.Heading, value: "Heading"),
     DropDownItemModel(isDivider: true),
-    DropDownItemModel(iconData: Icons.album, id: CompoundType.TEXT, value: "Text"),
+    DropDownItemModel(iconData: Icons.album, id: CompoundType.Text, value: "Text"),
   ];
   return baseDropDown(items: items, dropDownItemSelected : dropDownItemSelected, selected: selected,);
 });
@@ -37,9 +36,9 @@ Widget compoundTypeDropDown({DropDownItemSelected dropDownItemSelected, Compound
 
 class CompoundDropDown extends StatelessWidget {
   final items = [
-    DropDownItemModel(iconData: Icons.album, id: CompoundType.HEADING.toString(), value: "Heading"),
+    DropDownItemModel(iconData: Icons.album, id: CompoundType.Heading.toString(), value: "Heading"),
     DropDownItemModel(isDivider: true),
-    DropDownItemModel(iconData: Icons.album, id: CompoundType.TEXT.toString(), value: "Text"),
+    DropDownItemModel(iconData: Icons.album, id: CompoundType.Text.toString(), value: "Text"),
   ];
   final Key key;
   final DropDownItemSelected dropDownItemSelected;

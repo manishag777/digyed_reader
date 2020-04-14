@@ -13,8 +13,8 @@ class WriterModel extends BaseModel {
   void addCompound({BaseCompoundModel compound, CompoundType compoundType}){
     BaseCompoundModel newCompound = new TextModel(
         id: (index++).toString(),
-        compoundType: compoundType ?? CompoundType.HEADING,
-        compoundLayout: CompoundLayout.MERGED
+        compoundType: compoundType ?? CompoundType.Heading,
+        compoundLayout: CompoundLayout.Merge
     );
 
     int insertAt = compound==null ? 0: matter.compoundList.indexOf(compound) + 1;

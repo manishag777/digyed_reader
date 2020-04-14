@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:digyed_reader/view_models/reader_model.dart';
 import 'package:digyed_reader/view_models/writer_model.dart';
+import 'package:enum_to_string/enum_to_string.dart';
+
 
 import 'text_writer.dart';
 
 
-Map<CompoundType, Function> funcMap = {CompoundType.HEADING: headWriter,
-  CompoundType.TEXT: descriptionWriter};
+Map<CompoundType, Function> funcMap = {CompoundType.Heading: headWriter,
+  CompoundType.Text: descriptionWriter};
 
 class Writer extends StatelessWidget {
   @override
@@ -19,7 +21,7 @@ class Writer extends StatelessWidget {
     return Container(
       child: ListView(
         children: <Widget>[
-          compoundAdder(),
+          CompoundAdder(),
           matterWidget(),
         ],
       ),
@@ -47,24 +49,39 @@ class Writer extends StatelessWidget {
         builder: (context) {
           return Column(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                    color: cardColor,
-                    child: Column(
-                      children: <Widget>[
-                        funcMap[compound.compoundType](compound),
-                        bottomActionBar(compound, isFirst, isLast)
+              Container(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                      color: cardColor,
+                      child: Column(
+                        children: <Widget>[
+                          topActionBar(compound),
+                          funcMap[compound.compoundType](compound),
+                          bottomActionBar(compound, isFirst, isLast)
 
-                      ],
-                    )),
+                        ],
+                      )),
+                ),
               ),
-              compoundAdder(compound: compound)
+              CompoundAdder(compound: compound)
             ],
           );
 
         },
       );
+
+  Widget topActionBar(BaseCompoundModel compoundModel) => Builder(
+    builder: (context){
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container( width: double.infinity, child: Center(
+            child: Text(EnumToString.parseCamelCase(compoundModel.compoundType),
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold), ))),
+      );
+    },
+  );
 
   Widget bottomActionBar(BaseCompoundModel compound, isFirst, isLast) => Builder(
       builder: (context){
@@ -77,7 +94,7 @@ class Writer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Container(
-                    width: 200,
+                    width: 150,
                     child: compoundLayoutDropDown(
                         dropDownItemSelected: (DropDownItemModel d) {
                           compound.compoundLayout = d.id;
@@ -132,6 +149,7 @@ class Writer extends StatelessWidget {
 
   Widget compoundAdder({BaseCompoundModel compound}) => Builder(
         builder: (context) {
+          print("Building compound ");
           final writerModel = Provider.of<WriterModel>(context, listen: false);
           final readerModel = Provider.of<ReaderModel>(context, listen: false);
           CompoundType selectedCompoundType;
@@ -145,13 +163,16 @@ class Writer extends StatelessWidget {
                     child: compoundTypeDropDown(
                       dropDownItemSelected: (d) {
                         selectedCompoundType = d.id;
+                        print("Changed selected compound type"+selectedCompoundType.toString());
+
                       },
-                      selected: CompoundType.HEADING
+                      selected: CompoundType.Heading
                     )),
                 IconButton(
                   icon: Icon(Icons.add_circle),
                   onPressed: () {
                     writerModel.attachReader(readerModel);
+                    print("on pressing" + selectedCompoundType.toString());
                     writerModel.addCompound(compound: compound, compoundType: selectedCompoundType);
                   },
                 )
@@ -161,3 +182,57 @@ class Writer extends StatelessWidget {
         },
       );
 }
+
+class CompoundAdder extends StatefulWidget {
+  
+  BaseCompoundModel compound;
+
+  CompoundAdder({this.compound});
+  
+  @override
+  _CompoundAdderState createState() => _CompoundAdderState();
+}
+
+class _CompoundAdderState extends State<CompoundAdder> {
+  CompoundType selectedCompoundType;
+  
+  @override
+  void initState() {
+    if(selectedCompoundType==null)
+      selectedCompoundType = CompoundType.Heading;
+    super.initState();
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    final writerModel = Provider.of<WriterModel>(context, listen: false);
+    final readerModel = Provider.of<ReaderModel>(context, listen: false);
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+              width: 200,
+              child: compoundTypeDropDown(
+                  dropDownItemSelected: (d) {
+                    selectedCompoundType = d.id;
+                    print("Changed selected compound type"+selectedCompoundType.toString());
+
+                  },
+                  selected: CompoundType.Heading
+              )),
+          IconButton(
+            icon: Icon(Icons.add_circle),
+            onPressed: () {
+              writerModel.attachReader(readerModel);
+              print("on pressing" + selectedCompoundType.toString());
+              writerModel.addCompound(compound: widget.compound, compoundType: selectedCompoundType);
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
+

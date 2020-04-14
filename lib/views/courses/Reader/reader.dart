@@ -5,12 +5,12 @@ import 'package:digyed_reader/view_models/reader_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'header_reader.dart';
+import 'text_reader.dart';
 
 typedef Widget MyFunc(BaseCompoundModel a);
 
-Map<CompoundType,  MyFunc> funcMap = {CompoundType.HEADING: headReader,
-  CompoundType.TEXT: descriptionReader};
+Map<CompoundType,  MyFunc> funcMap = {CompoundType.Heading: headReader,
+  CompoundType.Text: descriptionReader};
 
 class Reader extends StatelessWidget {
   @override
@@ -46,6 +46,7 @@ class Reader extends StatelessWidget {
             child: Card(
               color: cardColor,
               child: Container(width: double.infinity, child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: compoundList.map((compound) => funcMap[compound.compoundType](compound)).toList()),
               )),
             );
