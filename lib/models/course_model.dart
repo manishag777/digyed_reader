@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum CompoundType { Heading, Text, Mcq, Checkbox}
+enum CompoundType { Heading, Text, Mcq, Checkbox, Dropdown}
 enum CompoundLayout {Card, Merge, WithoutCard}
 
 

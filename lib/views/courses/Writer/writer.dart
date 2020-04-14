@@ -17,7 +17,9 @@ Map<CompoundType, Function> funcMap = {
   CompoundType.Heading: headWriter,
   CompoundType.Text: descriptionWriter,
   CompoundType.Mcq: mcqWriter,
-  CompoundType.Checkbox: mcqWriter};
+  CompoundType.Checkbox: mcqWriter,
+  CompoundType.Dropdown: mcqWriter,
+};
 
 class Writer extends StatelessWidget {
   @override

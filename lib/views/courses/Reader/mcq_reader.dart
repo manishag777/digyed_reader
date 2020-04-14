@@ -2,6 +2,8 @@ import 'package:digyed_reader/constants/text_style.dart';
 import 'package:digyed_reader/models/course_model.dart';
 import 'package:digyed_reader/themes/ui_helpers.dart';
 import 'package:digyed_reader/views/courses/Reader/text_reader.dart';
+import 'package:digyed_reader/widgets/compound_type_drop_down.dart';
+import 'package:digyed_reader/widgets/drop_down.dart';
 import 'package:flutter/material.dart';
 
 Widget mcqReader(BaseCompoundModel mcqModel) => Builder(
@@ -28,12 +30,24 @@ class McqReader extends StatelessWidget {
               RadioButtonGroup(mcqModel.optionList),
             if(mcqModel.compoundType == CompoundType.Checkbox)
               CheckboxGroup(mcqModel.optionList),
+            if(mcqModel.compoundType == CompoundType.Dropdown)
+              dropDown(mcqModel.optionList),
 
         ],
       ),
     );
   }
 }
+
+
+Widget dropDown(List<TextModel> optionList) => Builder(builder: (context){
+  final items = optionList.map((e) => DropDownItemModel(iconData: Icons.album, id: e.id, value: e.text)).toList();
+//  final items = [
+//    DropDownItemModel(iconData: Icons.album, id: CompoundLayout.Merge, value: "Merge"),
+//    DropDownItemModel(iconData: Icons.album, id: CompoundLayout.Card, value: "Card"),
+//  ];
+  return baseDropDown(items: items, dropDownItemSelected : (model){}, selected: null, color: Colors.white);
+});
 
 
 class CheckboxGroup extends StatefulWidget {

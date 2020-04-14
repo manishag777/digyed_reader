@@ -17,7 +17,9 @@ class DropDown extends StatefulWidget {
   final List<DropDownItemModel> items;
   final DropDownItemSelected dropDownSelected;
   final DropDownItemModel selection;
-  DropDown({this.items, this.dropDownSelected, this.selection});
+  final Color color;
+  DropDown({this.items, this.dropDownSelected, this.selection, this.color});
+
 
   @override
   _DropDownState createState() => _DropDownState();
@@ -26,11 +28,16 @@ class DropDown extends StatefulWidget {
 class _DropDownState extends State<DropDown> {
   DropDownItemModel _selection;
   DropDownItemSelected _dropDownSelected;
+  Color _color;
 
   @override
   void initState() {
     _dropDownSelected = widget.dropDownSelected;
     _selection = widget.selection;
+    if(widget.color==null)
+      _color = Colors.black;
+    else
+      _color = widget.color;
     super.initState();
   }
 
@@ -74,7 +81,7 @@ class _DropDownState extends State<DropDown> {
       children: <Widget>[
         Icon(popUpItemModel.iconData),
         Container(width:8.0),
-        Text(popUpItemModel.value),
+        Expanded(child: Text(popUpItemModel.value)),
       ],
     ),
   );
@@ -86,9 +93,9 @@ class _DropDownState extends State<DropDown> {
       width: double.infinity,
       child: Row(
         children: <Widget>[
-          Text('Select Type'),
+          Text('Select Type', style: TextStyle(color: _color),),
           Expanded(child: Container(),),
-          Icon(Icons.arrow_drop_down)
+          Icon(Icons.arrow_drop_down, color: _color,)
 
         ],
       ),
@@ -97,11 +104,10 @@ class _DropDownState extends State<DropDown> {
       width: double.infinity,
       child: Row(
         children: <Widget>[
-          Icon(popUpItemModel.iconData),
+          Icon(popUpItemModel.iconData, color: _color,),
           Container(width:8.0),
-          Text(popUpItemModel.value),
-          Expanded(child: Container(),),
-          Icon(Icons.arrow_drop_down)
+          Expanded(child: Text(popUpItemModel.value, style: TextStyle(color: _color),)),
+          Icon(Icons.arrow_drop_down, color: _color,)
 
         ],
       ),

@@ -16,6 +16,7 @@ Map<CompoundType,  MyFunc> funcMap = {
   CompoundType.Text: descriptionReader,
   CompoundType.Mcq: mcqReader,
   CompoundType.Checkbox: mcqReader,
+  CompoundType.Dropdown: mcqReader
 };
 
 class Reader extends StatelessWidget {

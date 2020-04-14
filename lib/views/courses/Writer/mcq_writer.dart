@@ -116,15 +116,21 @@ class _OptionWriter extends StatelessWidget {
                       },
                       child: Row(
                         children: <Widget>[
-                          compoundType == CompoundType.Mcq
-                              ? Icon(
+                          if (compoundType == CompoundType.Mcq)
+                              Icon(
                                   Icons.radio_button_unchecked,
                                   color: Colors.white,
-                                )
-                              : Icon(
+                                ),
+                           if (compoundType == CompoundType.Checkbox)
+                            Icon(
                                   Icons.check_box,
                                   color: Colors.white,
                                 ),
+                          if (compoundType == CompoundType.Dropdown)
+                            Icon(
+                              Icons.arrow_drop_down_circle,
+                              color: Colors.white,
+                            ),
                           UIHelper.horizontalSpaceSmall(),
                           Expanded(
                             child: Text(
