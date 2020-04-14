@@ -1,16 +1,22 @@
 import 'package:digyed_reader/constants/colors.dart';
 import 'package:digyed_reader/constants/text_style.dart';
 import 'package:digyed_reader/models/course_model.dart';
+import 'package:digyed_reader/themes/ui_helpers.dart';
 import 'package:digyed_reader/view_models/reader_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'mcq_reader.dart';
 import 'text_reader.dart';
 
 typedef Widget MyFunc(BaseCompoundModel a);
 
-Map<CompoundType,  MyFunc> funcMap = {CompoundType.Heading: headReader,
-  CompoundType.Text: descriptionReader};
+Map<CompoundType,  MyFunc> funcMap = {
+  CompoundType.Heading: headReader,
+  CompoundType.Text: descriptionReader,
+  CompoundType.Mcq: mcqReader,
+  CompoundType.Checkbox: mcqReader,
+};
 
 class Reader extends StatelessWidget {
   @override
@@ -42,12 +48,15 @@ class Reader extends StatelessWidget {
       Builder(
         builder: (context) {
           return Padding(
-            padding: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(UIHelper.paddingMini),
             child: Card(
               color: cardColor,
-              child: Container(width: double.infinity, child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: compoundList.map((compound) => funcMap[compound.compoundType](compound)).toList()),
+              child: Padding(
+                padding: const EdgeInsets.all(UIHelper.paddingMini),
+                child: Container(width: double.infinity, child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: compoundList.map((compound) => funcMap[compound.compoundType](compound)).toList()),
+                ),
               )),
             );
         });

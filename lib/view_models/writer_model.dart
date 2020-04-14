@@ -11,11 +11,28 @@ class WriterModel extends BaseModel {
 
   
   void addCompound({BaseCompoundModel compound, CompoundType compoundType}){
-    BaseCompoundModel newCompound = new TextModel(
-        id: (index++).toString(),
-        compoundType: compoundType ?? CompoundType.Heading,
-        compoundLayout: CompoundLayout.Merge
-    );
+    BaseCompoundModel newCompound;
+    if(compoundType==null || [CompoundType.Heading, CompoundType.Text].contains(compoundType)) {
+      newCompound = new TextModel(
+          id: (index++).toString(),
+          compoundType: compoundType ?? CompoundType.Heading,
+          compoundLayout: CompoundLayout.Merge
+      );
+    }
+    else{
+      String id = (index++).toString();
+      TextModel headingModel = TextModel(id: id+"_heading", compoundType: CompoundType.Heading);
+      TextModel descriptionModel = TextModel(id: id+"_description", compoundType: CompoundType.Text);
+      TextModel optionModel = TextModel(id: id+"_option_0", compoundType: CompoundType.Text);
+      newCompound = new McqModel(
+          id: (index++).toString(),
+          compoundType: compoundType,
+          compoundLayout: CompoundLayout.Merge,
+          headingModel: headingModel,
+          descriptionModel: descriptionModel,
+          optionList: [optionModel]
+      );
+    }
 
     int insertAt = compound==null ? 0: matter.compoundList.indexOf(compound) + 1;
     matter.compoundList.insert(insertAt, newCompound);

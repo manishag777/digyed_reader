@@ -9,11 +9,15 @@ import 'package:digyed_reader/view_models/writer_model.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
 
+import 'mcq_writer.dart';
 import 'text_writer.dart';
 
 
-Map<CompoundType, Function> funcMap = {CompoundType.Heading: headWriter,
-  CompoundType.Text: descriptionWriter};
+Map<CompoundType, Function> funcMap = {
+  CompoundType.Heading: headWriter,
+  CompoundType.Text: descriptionWriter,
+  CompoundType.Mcq: mcqWriter,
+  CompoundType.Checkbox: mcqWriter};
 
 class Writer extends StatelessWidget {
   @override
@@ -218,7 +222,6 @@ class _CompoundAdderState extends State<CompoundAdder> {
                   dropDownItemSelected: (d) {
                     selectedCompoundType = d.id;
                     print("Changed selected compound type"+selectedCompoundType.toString());
-
                   },
                   selected: CompoundType.Heading
               )),

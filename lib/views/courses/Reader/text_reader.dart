@@ -17,7 +17,7 @@ class TextReader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return textModel.text != null ?
+    return isCompoundValid(textModel)?
     Padding(
         padding: const EdgeInsets.all(4.0),
         child: Text(textModel.text, style: textStyle)

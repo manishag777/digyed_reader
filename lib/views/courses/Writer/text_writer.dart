@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 
 
+Widget mcqOptionWriter(TextModel textModel, String hintText) => TextWriter(textModel, descriptionStyle, descriptionHintStyle, hintText);
 
 Widget headWriter(TextModel textModel) => TextWriter(textModel, headingStyle, headingHintStyle, 'Edit Heading');
 
@@ -49,7 +50,7 @@ class TextWriter extends StatelessWidget {
               child: focusNode.hasFocus
                   ? TextField(
                 autofocus: true,
-                style: headingStyle,
+                style: textStyle,
                 controller: TextEditingController(text: textModel.text),
                 onSubmitted: (s) {
                   textModel.text = s;

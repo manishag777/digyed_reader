@@ -25,27 +25,10 @@ Widget compoundLayoutDropDown({DropDownItemSelected dropDownItemSelected, Compou
 
 Widget compoundTypeDropDown({DropDownItemSelected dropDownItemSelected, CompoundType selected}) => Builder(builder: (context){
   final items = [
-    DropDownItemModel(iconData: Icons.album, id: CompoundType.Heading, value: "Heading"),
-    DropDownItemModel(isDivider: true),
-    DropDownItemModel(iconData: Icons.album, id: CompoundType.Text, value: "Text"),
+    DropDownItemModel(iconData: Icons.short_text, id: CompoundType.Heading, value: "Heading"),
+    DropDownItemModel(iconData: Icons.reorder, id: CompoundType.Text, value: "Text"),
+    DropDownItemModel(iconData: Icons.check_circle_outline, id: CompoundType.Mcq, value: "Mcq"),
+    DropDownItemModel(iconData: Icons.check_box_outline_blank, id: CompoundType.Checkbox, value: "Checkboxes"),
   ];
   return baseDropDown(items: items, dropDownItemSelected : dropDownItemSelected, selected: selected,);
 });
-
-
-
-class CompoundDropDown extends StatelessWidget {
-  final items = [
-    DropDownItemModel(iconData: Icons.album, id: CompoundType.Heading.toString(), value: "Heading"),
-    DropDownItemModel(isDivider: true),
-    DropDownItemModel(iconData: Icons.album, id: CompoundType.Text.toString(), value: "Text"),
-  ];
-  final Key key;
-  final DropDownItemSelected dropDownItemSelected;
-  CompoundDropDown({this.key, this.dropDownItemSelected}): super(key:key);
-
-  @override
-  Widget build(BuildContext context) {
-    return DropDown(items: items, dropDownSelected:dropDownItemSelected);
-  }
-}
