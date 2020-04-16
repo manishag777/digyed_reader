@@ -18,7 +18,7 @@ class DropDown extends StatefulWidget {
   final DropDownItemSelected dropDownSelected;
   final DropDownItemModel selection;
   final Color color;
-  DropDown({this.items, this.dropDownSelected, this.selection, this.color});
+  DropDown({this.items, this.dropDownSelected, this.selection, this.color=Colors.white});
 
 
   @override
@@ -28,22 +28,18 @@ class DropDown extends StatefulWidget {
 class _DropDownState extends State<DropDown> {
   DropDownItemModel _selection;
   DropDownItemSelected _dropDownSelected;
-  Color _color;
 
   @override
   void initState() {
     _dropDownSelected = widget.dropDownSelected;
     _selection = widget.selection;
-    if(widget.color==null)
-      _color = Colors.black;
-    else
-      _color = widget.color;
     super.initState();
   }
 
 
   @override
   Widget build(BuildContext context) {
+    print("Building widget.color ?? Colors.black" + (widget.color ?? Colors.black).toString());
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: PopupMenuButton<DropDownItemModel>(
@@ -93,9 +89,9 @@ class _DropDownState extends State<DropDown> {
       width: double.infinity,
       child: Row(
         children: <Widget>[
-          Text('Select Type', style: TextStyle(color: _color),),
+          Text('Select Type', style: TextStyle(color: widget.color ),),
           Expanded(child: Container(),),
-          Icon(Icons.arrow_drop_down, color: _color,)
+          Icon(Icons.arrow_drop_down, color: widget.color,)
 
         ],
       ),
@@ -104,10 +100,10 @@ class _DropDownState extends State<DropDown> {
       width: double.infinity,
       child: Row(
         children: <Widget>[
-          Icon(popUpItemModel.iconData, color: _color,),
+          Icon(popUpItemModel.iconData, color: widget.color,),
           Container(width:8.0),
-          Expanded(child: Text(popUpItemModel.value, style: TextStyle(color: _color),)),
-          Icon(Icons.arrow_drop_down, color: _color,)
+          Expanded(child: Text(popUpItemModel.value, style: TextStyle(color: widget.color),)),
+          Icon(Icons.arrow_drop_down, color: widget.color,)
 
         ],
       ),

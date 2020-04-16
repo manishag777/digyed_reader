@@ -1,16 +1,22 @@
 import 'package:digyed_reader/constants/text_style.dart';
+import 'package:digyed_reader/data/theme_data.dart';
 import 'package:digyed_reader/models/course_model.dart';
 import 'package:digyed_reader/view_models/writer_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
+Widget headWriter(TextModel textModel) => Builder(
+  builder: (context) {
+    return TextWriter(textModel, Theme.of(context).textTheme.heading, Theme.of(context).textTheme.hint, 'Edit Heading');
+  }
+);
 
-Widget mcqOptionWriter(TextModel textModel, String hintText) => TextWriter(textModel, descriptionStyle, descriptionHintStyle, hintText);
-
-Widget headWriter(TextModel textModel) => TextWriter(textModel, headingStyle, headingHintStyle, 'Edit Heading');
-
-Widget descriptionWriter(TextModel textModel) => TextWriter(textModel, descriptionStyle, descriptionHintStyle, 'Edit Description');
+Widget descriptionWriter(TextModel textModel) => Builder(
+  builder: (context) {
+    return     TextWriter(textModel, Theme.of(context).textTheme.body, Theme.of(context).textTheme.hint, 'Edit Description');
+  }
+);
 
 
 class TextWriter extends StatelessWidget {

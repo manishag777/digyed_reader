@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 enum CompoundType { Heading, Text, Mcq, Checkbox, Dropdown}
 enum CompoundLayout {Card, Merge, WithoutCard}
-
+enum ThemeType {Dark, Light}
 
 bool isCompoundValid(BaseCompoundModel baseCompoundModel){
   return baseCompoundModel!=null && baseCompoundModel.isValid();
@@ -20,8 +20,9 @@ abstract class BaseCompoundModel {
 }
 
 class Matter {
+  Map<ThemeType, ThemeData> themDataMap;
   List<BaseCompoundModel> compoundList;
-  Matter(this.compoundList);
+  Matter(this.compoundList, this.themDataMap);
 }
 
 class TextModel extends BaseCompoundModel{

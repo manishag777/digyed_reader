@@ -3,6 +3,7 @@ import 'package:digyed_reader/models/course_model.dart';
 import 'package:digyed_reader/widgets/compound_type_drop_down.dart';
 import 'package:digyed_reader/widgets/drop_down.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:digyed_reader/view_models/reader_model.dart';
 import 'package:digyed_reader/view_models/writer_model.dart';
@@ -24,15 +25,47 @@ Map<CompoundType, Function> funcMap = {
 class Writer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        children: <Widget>[
-          CompoundAdder(),
-          matterWidget(),
-        ],
+    final writerModel = Provider.of<WriterModel>(context, listen: false);
+    return Theme(
+      data: writerModel.themeData,
+      child: Builder(
+        builder: (context) {
+          return Container(
+            color: Theme.of(context).colorScheme.background,
+            child: ListView(
+              children: <Widget>[
+                darkModeController,
+                CompoundAdder(),
+                matterWidget(),
+              ],
+            ),
+          );
+        }
       ),
     );
   }
+
+  Widget get darkModeController => Builder(builder: (context){
+    final writerModel = Provider.of<WriterModel>(context, listen: false);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Card(
+          color: Theme.of(context).colorScheme.surface,
+          child: IconButton(
+              color: Theme.of(context).colorScheme.onSurface,
+              icon: writerModel.themeType == ThemeType.Dark ? Icon(MdiIcons.brightness4): Icon(MdiIcons.brightness7), onPressed: (){
+            if(writerModel.themeType==ThemeType.Light){
+              writerModel.themeType = ThemeType.Dark;
+            }
+            else{
+              writerModel.themeType = ThemeType.Light;
+            }
+          }),
+        ),
+      ],
+    );
+  },);
 
   Widget matterWidget() => Builder(
         builder: (context) {
@@ -60,7 +93,7 @@ class Writer extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Card(
-                      color: cardColor,
+                      color: Theme.of(context).colorScheme.surface,
                       child: Column(
                         children: <Widget>[
                           topActionBar(compound),
@@ -84,7 +117,9 @@ class Writer extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Container( width: double.infinity, child: Center(
             child: Text(EnumToString.parseCamelCase(compoundModel.compoundType),
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold), ))),
+              style: Theme.of(context).textTheme.bodyText1,
+                  )
+        )),
       );
     },
   );
@@ -95,7 +130,7 @@ class Writer extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.primary,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
@@ -112,28 +147,26 @@ class Writer extends StatelessWidget {
                 ),
                 if (!isFirst)
                   _IconButton(
-                    icon: Icon(
-                      Icons.arrow_upward,
-                    ),
+                    icon:Icons.arrow_upward,
                     onPressed: () {
                       writerModel.moveUp(compound);
                     },
                   ),
                 if (!isLast)
                   _IconButton(
-                    icon: Icon(Icons.arrow_downward),
+                    icon: Icons.arrow_downward,
                     onPressed: () {
                       writerModel.moveDown(compound);
                     },
                   ),
                 _IconButton(
-                  icon: Icon(Icons.content_copy),
+                  icon: Icons.content_copy,
                   onPressed: () {
                     writerModel.duplicate(compound);
                   },
                 ),
                 _IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: Icons.delete,
                   onPressed: () {
                     writerModel.delete(compound);
                   },
@@ -147,10 +180,14 @@ class Writer extends StatelessWidget {
   );
 
 
-  Widget _IconButton({icon, onPressed}) => Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: InkWell(child: icon, onTap: onPressed),
-      );
+  Widget _IconButton({icon, onPressed}) => Builder(
+    builder: (context) {
+      return Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: InkWell(child: Icon(icon, color: Theme.of(context).colorScheme.onPrimary,), onTap: onPressed,),
+          );
+    }
+  );
 
 
   Widget compoundAdder({BaseCompoundModel compound}) => Builder(
@@ -161,28 +198,30 @@ class Writer extends StatelessWidget {
           CompoundType selectedCompoundType;
           return Padding(
             padding: const EdgeInsets.all(4.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    width: 200,
-                    child: compoundTypeDropDown(
-                      dropDownItemSelected: (d) {
-                        selectedCompoundType = d.id;
-                        print("Changed selected compound type"+selectedCompoundType.toString());
-
-                      },
-                      selected: CompoundType.Heading
-                    )),
-                IconButton(
-                  icon: Icon(Icons.add_circle),
-                  onPressed: () {
-                    writerModel.attachReader(readerModel);
-                    print("on pressing" + selectedCompoundType.toString());
-                    writerModel.addCompound(compound: compound, compoundType: selectedCompoundType);
-                  },
-                )
-              ],
+            child: Container(
+              color: Theme.of(context).colorScheme.primary,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      width: 200,
+                      child: compoundTypeDropDown(
+                        dropDownItemSelected: (d) {
+                          selectedCompoundType = d.id;
+                        },
+                        selected: CompoundType.Heading,
+                        color: Theme.of(context).colorScheme.onBackground
+                      )),
+                  IconButton(
+                    icon: Icon(Icons.add_circle, color: Theme.of(context).colorScheme.onBackground),
+                    onPressed: () {
+                      writerModel.attachReader(readerModel);
+                      print("on pressing" + selectedCompoundType.toString());
+                      writerModel.addCompound(compound: compound, compoundType: selectedCompoundType);
+                    },
+                  )
+                ],
+              ),
             ),
           );
         },
@@ -223,12 +262,12 @@ class _CompoundAdderState extends State<CompoundAdder> {
               child: compoundTypeDropDown(
                   dropDownItemSelected: (d) {
                     selectedCompoundType = d.id;
-                    print("Changed selected compound type"+selectedCompoundType.toString());
                   },
-                  selected: CompoundType.Heading
+                  selected: CompoundType.Heading,
+                  color: Theme.of(context).colorScheme.onBackground
               )),
           IconButton(
-            icon: Icon(Icons.add_circle),
+            icon: Icon(Icons.add_circle, color: Theme.of(context).colorScheme.onBackground,),
             onPressed: () {
               writerModel.attachReader(readerModel);
               print("on pressing" + selectedCompoundType.toString());

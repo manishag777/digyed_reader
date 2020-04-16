@@ -1,15 +1,26 @@
+import 'package:digyed_reader/data/theme_data.dart';
 import 'package:digyed_reader/view_models/reader_model.dart';
 import 'package:digyed_reader/models/course_model.dart';
+import 'package:flutter/material.dart';
 
 import 'base_model.dart';
 
 class WriterModel extends BaseModel {
   int index = 0;
   Matter matter;
-  WriterModel(): matter=Matter([]);
+  ThemeType _themeType = ThemeType.Dark;
+  WriterModel(): matter= Matter([], themeDataMap);
   ReaderModel readerModel;
 
-  
+  ThemeData get themeData => themeDataMap[_themeType];
+
+  ThemeType get themeType => _themeType;
+
+  void set themeType(_themeType) {
+    this._themeType = _themeType;
+    notify();
+  }
+
   void addCompound({BaseCompoundModel compound, CompoundType compoundType}){
     BaseCompoundModel newCompound;
     if(compoundType==null || [CompoundType.Heading, CompoundType.Text].contains(compoundType)) {
