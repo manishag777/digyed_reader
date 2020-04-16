@@ -4,14 +4,21 @@ import 'package:flutter/material.dart';
 
 extension CustomTextTheme on TextTheme{
   TextStyle get heading => headline4;
-  TextStyle get body => bodyText1;
-  TextStyle get hint => bodyText2;
+  TextStyle get headingHint => headline3;
+  TextStyle get body => headline5;
+  TextStyle get bodyHint => headline6;
+  TextStyle get other => bodyText1;
 }
 
 ThemeData changeTextTheme(ThemeData theme) {
     theme = theme.copyWith(
       textTheme: theme.textTheme.copyWith(
-        bodyText2: theme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w400)
+        headline4: theme.textTheme.headline3.copyWith(fontWeight: FontWeight.w500, fontSize: 34.0, color: theme.colorScheme.onSurface),
+        headline3: theme.textTheme.headline3.copyWith(fontWeight: FontWeight.w500, fontSize: 34.0, color: theme.hintColor),
+        headline5: theme.textTheme.headline3.copyWith(fontWeight: FontWeight.w500, fontSize: 24.0, color: theme.colorScheme.onSurface),
+        headline6: theme.textTheme.headline3.copyWith(fontWeight: FontWeight.w500, fontSize: 24.0, color: theme.hintColor),
+        bodyText1: theme.textTheme.headline3.copyWith(fontWeight: FontWeight.w500, fontSize: 16.0, color: theme.colorScheme.onSurface),
+
     )
     );
     return theme;
@@ -39,10 +46,10 @@ Map<ThemeType, ThemeData> get themeDataMap  {
       onBackground: Color(0xFF000000),
       onSurface: Color(0xFF000000),
       onError: Color(0xFFFFFFFF)
-  ));
+  )).copyWith(hintColor: Colors.grey[600]);
 //  lightTheme.copyWith(textTheme: CustomStyles);
 
-  //lightTheme = changeTextTheme(lightTheme);
+  lightTheme = changeTextTheme(lightTheme);
   
 //  const Color textColor = Color.fromARGB(255, 255, 255, 255);
 //  const TextStyle headingStyle = TextStyle(color: textColor, fontSize: 30, fontWeight: FontWeight.bold);
@@ -66,9 +73,10 @@ Map<ThemeType, ThemeData> get themeDataMap  {
       onBackground: Color(0xFFFFFFFF),
       onSurface: Color(0xFFFFFFFF),
       onError: Color(0xFF000000)
-  ));
+  )).copyWith(hintColor: Colors.grey[400]);
 
-  //darkTheme = changeTextTheme(darkTheme);
+
+  darkTheme = changeTextTheme(darkTheme);
 
 
   return {ThemeType.Dark: darkTheme, ThemeType.Light: lightTheme};

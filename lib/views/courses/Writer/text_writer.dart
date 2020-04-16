@@ -8,13 +8,13 @@ import 'package:provider/provider.dart';
 
 Widget headWriter(TextModel textModel) => Builder(
   builder: (context) {
-    return TextWriter(textModel, Theme.of(context).textTheme.heading, Theme.of(context).textTheme.hint, 'Edit Heading');
+    return TextWriter(textModel, Theme.of(context).textTheme.heading, Theme.of(context).textTheme.headingHint, 'Untitled Heading');
   }
 );
 
 Widget descriptionWriter(TextModel textModel) => Builder(
   builder: (context) {
-    return     TextWriter(textModel, Theme.of(context).textTheme.body, Theme.of(context).textTheme.hint, 'Edit Description');
+    return     TextWriter(textModel, Theme.of(context).textTheme.body, Theme.of(context).textTheme.bodyHint, 'Missing Description');
   }
 );
 
@@ -28,72 +28,78 @@ class TextWriter extends StatelessWidget {
 
   TextWriter(this.textModel, this.textStyle, this.textHintStyle, this.hintText);
 
-  InputDecoration inputDecoration(hintText, hintStyle) => InputDecoration(
+  InputDecoration inputDecoration(hintText, hintStyle, Color color) => InputDecoration(
     hintText: hintText,
     hintStyle: hintStyle,
-    enabledBorder: const OutlineInputBorder(
-      borderSide: const BorderSide(color: Colors.white, width: 0.0),
+    enabledBorder:  OutlineInputBorder(
+      borderSide:  BorderSide(color: color, width: 0.0),
     ),
-    focusedBorder: const OutlineInputBorder(
-      borderSide: const BorderSide(color: Colors.white, width: 0.0),
+    focusedBorder:  OutlineInputBorder(
+      borderSide:  BorderSide(color: color, width: 0.0),
     ),
-    border: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white)),
+    border:  OutlineInputBorder(
+        borderSide: BorderSide(color: color)),
   );
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
-      child: Builder(
-        builder: (context) {
-          final FocusNode focusNode = Focus.of(context);
-          final baseModel = Provider.of<WriterModel>(context, listen: false);
+    return Builder(
+      builder: (context) {
+        final FocusNode parentFocusNode = Focus.of(context);
+        return Focus(
+          child: Builder(
+            builder: (context) {
+              final FocusNode focusNode = Focus.of(context);
+              final baseModel = Provider.of<WriterModel>(context, listen: false);
 
-          return Container(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: focusNode.hasFocus
-                  ? TextField(
-                autofocus: true,
-                style: textStyle,
-                controller: TextEditingController(text: textModel.text),
-                onSubmitted: (s) {
-                  textModel.text = s;
-                  baseModel.notify();
-                },
-                onChanged: (s) {
-                  textModel.text = s;
-                },
-                decoration: inputDecoration(hintText, textHintStyle),
-                cursorColor: Colors.white,
-                minLines: 1,
-                maxLines: null,
-              )
-                  : GestureDetector(
-                onTap: () {
-                  focusNode.requestFocus();
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Flexible(
-                      child: Text(
-                        textModel.text ?? hintText,
-                        style: textModel.text == null ? textHintStyle: textStyle,
-                      ),
+              return Container(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: focusNode.hasFocus
+                      ? TextField(
+                    autofocus: true,
+                    style: textStyle,
+                    controller: TextEditingController(text: textModel.text),
+                    onSubmitted: (s) {
+                      textModel.text = s;
+                      baseModel.notify();
+                    },
+                    onChanged: (s) {
+                      textModel.text = s;
+                    },
+                    decoration: inputDecoration(hintText, textHintStyle, Theme.of(context).colorScheme.onSurface),
+                    cursorColor: Colors.white,
+                    minLines: 1,
+                    maxLines: null,
+                  )
+                      : GestureDetector(
+                    onTap: parentFocusNode.hasFocus ? () {
+                      focusNode.requestFocus();
+                    }: (){},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                            textModel.text ?? hintText,
+                            style: textModel.text == null ? textHintStyle: textStyle,
+                          ),
+                        ),
+                        if(parentFocusNode.hasFocus)
+                          Icon(
+                            Icons.edit,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          )
+                      ],
                     ),
-                    Icon(
-                      Icons.edit,
-                      color: Colors.white,
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
+        );
+      }
     );
   }
 
